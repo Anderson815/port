@@ -1,0 +1,27 @@
+version: "3.8"
+
+services:
+  api-port:
+    container_name: api-port-dev
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    ports:
+      - "8080:3333"
+    networks:
+      - networking-api-port-dev
+    volumes:
+      - .:/usr/app
+
+  db-port:
+    container_name: db-port-dev
+    image: mysql:8.0
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+
+networks:
+  networking-api-port-dev:
+    driver: bridge
