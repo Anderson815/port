@@ -3,5 +3,5 @@ WORKDIR /usr/app
 COPY . .
 ENV TZ="America/Sao_Paulo";
 RUN npm install
-EXPOSE 3333
-ENTRYPOINT npm run start:dev
+EXPOSE 3333 9229
+CMD ["npm", "run", "start:debug"]
