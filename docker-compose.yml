@@ -1,0 +1,51 @@
+version: "3.8"
+
+services:
+  api-port-prod:
+    profiles:
+      - prod
+    container_name: api-port-prod
+    build:
+      context: .
+      target: prod
+    image: api-port-image-prod
+    ports:
+      - "8080:3333"
+      - "9229:9229"
+    networks:
+      - networking-api-port
+    tty: true
+    stdin_open: true
+
+  api-port-dev:
+    profiles:
+      - dev
+    container_name: api-port-dev
+    build:
+      context: .
+      target: dev
+    image: api-port-image-dev
+    ports:
+      - "8080:3333"
+      - "9229:9229"
+    networks:
+      - networking-api-port
+    volumes:
+      - .:/usr/app
+    tty: true
+    stdin_open: true
+
+  db-port:
+    container_name: db-port-dev
+    image: mysql:8.0
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+    networks:
+      - networking-api-port
+
+networks:
+  networking-api-port:
+    driver: bridge

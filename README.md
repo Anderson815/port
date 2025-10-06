@@ -43,6 +43,18 @@ $ npm run start:dev
 
 # production mode
 $ npm run start:prod
+
+# Atualização do repositório
+$ sudo git pull origin develop
+
+# Remoção do contaienr em execução
+$ docker compose down
+
+# Limpeza dos containers
+# docker system prune -fa
+
+# Subir a aplicação
+$ docker compose --profile dev up --build -d
 ```
 
 ## Test
