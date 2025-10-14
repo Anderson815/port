@@ -6,5 +6,6 @@ export interface GatewayBdSkill {
   create(newSkill: CreateSkillDto): Promise<Skill>;
   findById(id: number): Promise<Skill>;
   updateById(id: number, updateSkill: UpdateSkillDto): Promise<Skill>;
+  removeById(id: number): Promise<void>;
   findAll(): Promise<Skill[]>;
 }

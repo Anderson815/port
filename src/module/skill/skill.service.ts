@@ -28,11 +28,13 @@ export class SkillService {
   }
 
   async update(id: number, updateSkillDto: UpdateSkillDto) {
+    await this.findOne(id);
     const skillSave = await this.skillRepository.updateById(id, updateSkillDto);
     return skillSave;
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} skill`;
+  async remove(id: number) {
+    await this.findOne(id);
+    await this.skillRepository.removeById(id);
   }
 }

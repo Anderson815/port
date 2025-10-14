@@ -8,16 +8,16 @@ import { UpdateSkillDto } from '../dto/update-skill.dto';
 @Injectable()
 export class AdapterBdSkillMemory implements GatewayBdSkill {
   listSkills: Skill[];
+  newId: number;
 
   constructor() {
     this.listSkills = [];
+    this.newId = 0;
   }
 
   async create(newSkill: CreateSkillDto): Promise<Skill> {
-    const id = this.listSkills.length;
-
     const skillToSave = plainToClass(Skill, newSkill, { excludeExtraneousValues: true });
-    skillToSave.id = id;
+    skillToSave.id = this.generateId();
 
     this.listSkills.push(skillToSave);
 
@@ -25,22 +25,34 @@ export class AdapterBdSkillMemory implements GatewayBdSkill {
   }
 
   async findById(id: number): Promise<Skill> {
-    return this.listSkills[id];
+    const skill = this.listSkills.find((skill) => skill.id === id);
+    return skill;
   }
 
   async updateById(id: number, updateSkill: UpdateSkillDto): Promise<Skill> {
-    const skillToSave = this.listSkills[id];
+    const skillToSave = await this.findById(id);
+    this.removeById(id);
 
     skillToSave.description = updateSkill.description ?? skillToSave.description;
     skillToSave.imageUrl = updateSkill.imageUrl ?? skillToSave.imageUrl;
     skillToSave.name = updateSkill.name ?? skillToSave.name;
 
-    this.listSkills[id] = skillToSave;
+    this.listSkills.push(skillToSave);
 
     return skillToSave;
   }
 
   async findAll(): Promise<Skill[]> {
     return this.listSkills;
+  }
+
+  async removeById(id: number) {
+    const indexToRemove = this.listSkills.findIndex((skill) => skill.id === id);
+    this.listSkills.splice(indexToRemove, 1);
+  }
+
+  private generateId() {
+    this.newId += 1;
+    return this.newId;
   }
 }

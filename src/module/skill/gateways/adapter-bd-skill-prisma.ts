@@ -40,4 +40,12 @@ export class AdapterBdSkillPrisma implements GatewayBdSkill {
 
     return plainToInstance(Skill, skillBd, { excludeExtraneousValues: true });
   }
+
+  async removeById(id: number) {
+    await this.prisma.skillEntity.delete({
+      where: {
+        id,
+      },
+    });
+  }
 }
