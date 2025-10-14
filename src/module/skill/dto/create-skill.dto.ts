@@ -10,7 +10,7 @@ export class CreateSkillDto {
   @IsOptional()
   @IsString()
   @Expose()
-  description?: string;
+  description: string;
 
   @IsOptional()
   @IsString()

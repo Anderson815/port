@@ -6,7 +6,7 @@ import { GatewayBdSkill } from './gateways/gateway-bd-skill';
 @Injectable()
 export class SkillService {
   constructor(
-    @Inject('skillRepositoryMemory')
+    @Inject('SkillRepositoryBd')
     private skillRepository: GatewayBdSkill
   ) {}
 
@@ -28,7 +28,7 @@ export class SkillService {
   }
 
   async update(id: number, updateSkillDto: UpdateSkillDto) {
-    const skillSave = await this.skillRepository.update(id, updateSkillDto);
+    const skillSave = await this.skillRepository.updateById(id, updateSkillDto);
     return skillSave;
   }
 

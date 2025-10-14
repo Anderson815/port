@@ -28,7 +28,7 @@ export class AdapterBdSkillMemory implements GatewayBdSkill {
     return this.listSkills[id];
   }
 
-  async update(id: number, updateSkill: UpdateSkillDto): Promise<Skill> {
+  async updateById(id: number, updateSkill: UpdateSkillDto): Promise<Skill> {
     const skillToSave = this.listSkills[id];
 
     skillToSave.description = updateSkill.description ?? skillToSave.description;
